@@ -1,5 +1,13 @@
 const router = require('express').Router();
-// ! Need to make the methods used here in controllers
+const {
+    getUsers,
+    getSingleUser,
+    createUser,
+    updateUser,
+    deleteUser,
+    addFriend,
+    deleteFriend,
+} = require('../../controllers/userController');
 
 // ! Need to build out routes later
 // /api/users
