@@ -1,28 +1,45 @@
 const { User, Thought } = require('../models');
 
 module.exports = {
-    async getUsers(req, res) {
+    async getThoughts(req, res) {
         try {
-            const users = await User.find();
-            res.json(users);
+            const thoughts = await Thought.find();
+            res.json(thoughts);
         } catch (err) {
             res.status(500).json(err);
         }
     },
-    
-    async getSingleUser(req, res) {
+    async getSingleThought(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.userId })
-              .select('-__v');
-
-            if (!user) {
-                return res.status(404).json({ message: 'No user found with that id.' })
+            const thought = await Thought.findOne({ _id: req.params.thoughtId })
+    
+            if (!thought) {
+                return res.status(404).json({ message: 'No thought found with that id.' })
             }
-            res.json(user);
+            res.json(thought);
         } catch (err) {
             console.log(err);
             return res.status(500).json(err);
         }
     },
-    // add more after verifying this works
+    async createThought(req, res) {
+        try {
+            const thought = await Thought.create(req.body);
+            const user = await User.findOneAndUpdate(
+                { _id: req.body.userId },
+                { $addToSet: { thoughts: thought._id }},
+                { new: true }
+            );
+            
+            if (!user) {
+                return res.status(404).json({
+                    message: "Thought created, but no user was found with that ID",
+                })
+            }
+            
+            res.json(thought);
+        } catch(err) {
+            res.status(500).json(err);
+        }
+    }
 }
