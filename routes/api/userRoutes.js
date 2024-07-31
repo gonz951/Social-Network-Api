@@ -3,7 +3,7 @@ const {
     getUsers,
     getSingleUser,
     createUser,
-    // ! update User is finicky
+    // ! updateUser is finicky
     updateUser,
     deleteUser,
     addFriend,

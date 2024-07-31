@@ -98,6 +98,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+    // ! This method doesn't work; fix this later
     async deleteReaction(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
