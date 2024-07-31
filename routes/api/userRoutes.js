@@ -6,7 +6,7 @@ const {
     // ! update User is finicky
     updateUser,
     deleteUser,
-    // addFriend,
+    addFriend,
     // deleteFriend,
 } = require('../../controllers/userController');
 
