@@ -30,6 +30,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+    // ! This method needs to be fixed 
     async updateUser(req, res) {
         try {
             const user = await User.findOneAndUpdate(
@@ -61,17 +62,24 @@ module.exports = {
             res.status(500).json(err);
         }
     }, 
+    // ! This doesn't work; fix this later
     async addFriend(req, res) {
         try {
-            const user = await User.findOneAndUpdate({ _id: req.params.userId });
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                { $addToSet: { friends: user.userId }},
+                { new: true }
+            );
 
             if (!user) {
-                return res.status(404).json({ message: 'No user with that id.' });
+                return res.status(404).json({ message: 'No user with that id'})
             }
-            
-            // ! FINISH THIS
+
+            res.json(user);
+
         } catch (err) {
             res.status(500).json(err)
         } 
-    }
+    },
+    // ! Need to add removeFriend 
 };
